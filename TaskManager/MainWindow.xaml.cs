@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace TaskManager
 {
@@ -23,14 +24,23 @@ namespace TaskManager
         public MainWindow()
         {
             InitializeComponent();
-            var processes = new ProcessManager();
-            processesGrid.DataContext = processes;
+            //DataContext = new ViewModel();
+
+            //var processes = new ProcessManager();
+            //processesGrid.DataContext = processes;
+            int index = 0;
             //processesGrid.Items.Add(processes);
-            foreach (var process in processes.processes)
+            /*foreach (var process in processes.processes)
             {
                 //processesGrid.Items.Add(process);
                 //processesGrid.Items.Add(process.ProcessName.ToString());
                 processesGrid.Items.Add(process);
+                processesGrid.Name.Insert(index, process.ProcessName);
+                index++;
+            }*/
+            foreach (var proc in Process.GetProcesses())
+            {
+                processesGrid.Items.Add(proc);
             }
         }
     }
