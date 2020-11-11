@@ -35,22 +35,29 @@ namespace TaskManager
 
         private void AbortProcess(object sender, RoutedEventArgs e)
         {
-            Process process = (Process)procListView.SelectedItem;
-            process.Kill();
-
-            Task tastk = Task.Run(() =>
+            try
             {
-                Dispatcher.Invoke(() =>
+                Process process = (Process)procListView.SelectedItem;
+                process.Kill();
+
+                Task tastk = Task.Run(() =>
                 {
-                    procListView.Items.Clear();
-
-                    foreach (var proc in Process.GetProcesses())
+                    Dispatcher.Invoke(() =>
                     {
-                        procListView.Items.Add(proc);
-                    }
+                        procListView.Items.Clear();
 
+                        foreach (var proc in Process.GetProcesses())
+                        {
+                            procListView.Items.Add(proc);
+                        }
+
+                    });
                 });
-            });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void procListView_MouseEnter(object sender, MouseEventArgs e)
